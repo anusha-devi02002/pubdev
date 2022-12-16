@@ -1082,6 +1082,21 @@ class _MyAppState extends State&lt;MyApp&gt; {
 }
 
 //SDCARD
+add path_provider to pubspec.yaml
+
+location to file : android/app/src/main/AndroidManifest.xml  && compare and copy paste only permission and first application line
+&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.sd_card"&gt;
+    &lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;
+    &lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/&gt;
+    &lt;application android:requestLegacyExternalStorage="true"/&gt;
+        &lt;application
+        android:label="sd_card"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"&gt;
+        &lt;activity
+
+//main.dart
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -1634,6 +1649,499 @@ class _MyAppState extends State&lt;MyApp&gt; {
         ),
       ),
     );
+  }
+}
+
+
+//TIC TAC TOE
+import 'package:flutter/material.dart';
+
+void main() =&gt; runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() =&gt; _HomePageState();
+}
+
+class _HomePageState extends State&lt;HomePage&gt; {
+  bool oTurn = true;
+
+// 1st player is O
+  List&lt;String&gt; displayElement = ['', '', '', '', '', '', '', '', ''];
+  int oScore = 0;
+  int xScore = 0;
+  int filledBoxes = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.indigo[900],
+      body: Column(
+        children: &lt;Widget&gt;[
+          Expanded(
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: &lt;Widget&gt;[
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: &lt;Widget&gt;[
+                        Text(
+                          'Player X',
+                          style: TextStyle(fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        Text(
+                          xScore.toString(),
+                          style: TextStyle(fontSize: 20,color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: &lt;Widget&gt;[
+                        Text('Player O', style: TextStyle(fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)
+                        ),
+                        Text(
+                          oScore.toString(),
+                          style: TextStyle(fontSize: 20,color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: GridView.builder(
+                itemCount: 9,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      _tapped(index);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white)),
+                      child: Center(
+                        child: Text(
+                          displayElement[index],
+                          style: TextStyle(color: Colors.white, fontSize: 35),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+          ),
+          Expanded(
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: &lt;Widget&gt;[
+                    ElevatedButton(
+                      onPressed: _clearScoreBoard,
+                      child: Text("Clear Score Board"),
+                    ),
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+
+  void _tapped(int index) {
+    setState(() {
+      if (oTurn && displayElement[index] == '') {
+        displayElement[index] = 'O';
+        filledBoxes++;
+      } else if (!oTurn && displayElement[index] == '') {
+        displayElement[index] = 'X';
+        filledBoxes++;
+      }
+
+      oTurn = !oTurn;
+      _checkWinner();
+    });
+  }
+
+  void _checkWinner() {
+
+    // Checking rows
+    if (displayElement[0] == displayElement[1] &&
+        displayElement[0] == displayElement[2] &&
+        displayElement[0] != '') {
+      _showWinDialog(displayElement[0]);
+    }
+    if (displayElement[3] == displayElement[4] &&
+        displayElement[3] == displayElement[5] &&
+        displayElement[3] != '') {
+      _showWinDialog(displayElement[3]);
+    }
+    if (displayElement[6] == displayElement[7] &&
+        displayElement[6] == displayElement[8] &&
+        displayElement[6] != '') {
+      _showWinDialog(displayElement[6]);
+    }
+
+    // Checking Column
+    if (displayElement[0] == displayElement[3] &&
+        displayElement[0] == displayElement[6] &&
+        displayElement[0] != '') {
+      _showWinDialog(displayElement[0]);
+    }
+    if (displayElement[1] == displayElement[4] &&
+        displayElement[1] == displayElement[7] &&
+        displayElement[1] != '') {
+      _showWinDialog(displayElement[1]);
+    }
+    if (displayElement[2] == displayElement[5] &&
+        displayElement[2] == displayElement[8] &&
+        displayElement[2] != '') {
+      _showWinDialog(displayElement[2]);
+    }
+
+    // Checking Diagonal
+    if (displayElement[0] == displayElement[4] &&
+        displayElement[0] == displayElement[8] &&
+        displayElement[0] != '') {
+      _showWinDialog(displayElement[0]);
+    }
+    if (displayElement[2] == displayElement[4] &&
+        displayElement[2] == displayElement[6] &&
+        displayElement[2] != '') {
+      _showWinDialog(displayElement[2]);
+    } else if (filledBoxes == 9) {
+      _showDrawDialog();
+    }
+  }
+
+  void _showWinDialog(String winner) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("\" " + winner + " \" is Winner!!!"),
+            actions: [
+              ElevatedButton(
+                child: Text("Play Again"),
+                onPressed: () {
+                  _clearBoard();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+
+    if (winner == 'O') {
+      oScore++;
+    } else if (winner == 'X') {
+      xScore++;
+    }
+  }
+
+  void _showDrawDialog() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Draw"),
+            actions: [
+              ElevatedButton(
+                child: Text("Play Again"),
+                onPressed: () {
+                  _clearBoard();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  void _clearBoard() {
+    setState(() {
+      for (int i = 0; i &lt; 9; i++) {
+        displayElement[i] = '';
+      }
+    });
+
+    filledBoxes = 0;
+  }
+
+  void _clearScoreBoard() {
+    setState(() {
+      xScore = 0;
+      oScore = 0;
+      for (int i = 0; i &lt; 9; i++) {
+        displayElement[i] = '';
+      }
+    });
+    filledBoxes = 0;
+  }
+}
+
+//ping pong
+
+//ball.dart
+import 'package:flutter/material.dart';
+
+class Ball extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final double diam = 50;
+    return Container(
+      width: diam,
+      height: diam,
+      decoration:
+      new BoxDecoration(color: Colors.amber[400], shape: BoxShape.circle),
+    );
+  }
+}
+
+//bat
+import 'package:flutter/material.dart';
+
+class Bat extends StatelessWidget {
+  final double width;
+  final double height;
+
+  Bat(this.width, this.height);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: width,
+        height: height,
+        decoration: new BoxDecoration(
+          color: Colors.blue[900],
+        ));
+  }
+}
+
+//main
+import 'package:flutter/material.dart';
+import './pong.dart';
+
+void main() =&gt; runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Pong Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('Simple Pong'),
+            ),
+            body: SafeArea(
+              child: Pong(),
+            )));
+  }
+}
+
+//PING PONG
+import 'package:flutter/material.dart';
+import './ball.dart';
+import './bat.dart';
+import 'dart:math';
+
+enum Direction { up, down, left, right }
+
+class Pong extends StatefulWidget {
+  @override
+  _PongState createState() =&gt; _PongState();
+}
+
+class _PongState extends State&lt;Pong&gt; with SingleTickerProviderStateMixin {
+  double increment = 5;
+
+  Direction vDir = Direction.down;
+  Direction hDir = Direction.right;
+
+  late Animation&lt;double&gt; animation;
+  late AnimationController controller;
+
+   double width=5.0;
+   double height=5.0;
+  double posX = 0;
+  double posY = 0;
+
+  double batWidth = 0;
+  double batHeight = 0;
+  double batPosition = 0;
+
+  double randX = 1;
+  double randY = 1;
+
+  int score = 0;
+
+  // bool showDialog = false;
+
+  double randomNumber() {
+    //this is a number between 0.5 and 1.5;
+    var ran = new Random();
+    int myNum = ran.nextInt(101);
+    return (50 + myNum) / 100;
+  }
+
+  void showMessage(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Game Over'),
+            content: Text('Would you like to play again?'),
+            actions: &lt;Widget&gt;[
+              FloatingActionButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  setState(() {
+                    posX = 0;
+                    posY = 0;
+                    score = 0;
+                  });
+                  Navigator.of(context).pop();
+                  controller.repeat();
+                },
+              ),
+              FloatingActionButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  dispose();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  @override
+  void initState() {
+    posX = 0;
+    posY = 0;
+    controller = AnimationController(
+      duration: const Duration(minutes: 10000),
+      vsync: this,
+    );
+    animation = Tween&lt;double&gt;(begin: 0, end: 100).animate(controller);
+    animation.addListener(() {
+      safeSetState(() {
+        (hDir == Direction.right)
+            ? posX += ((increment * randX).round())
+            : posX -= ((increment * randX).round());
+        (vDir == Direction.down)
+            ? posY += ((increment * randY).round())
+            : posY -= ((increment * randY).round());
+      });
+      checkBorders();
+    });
+    controller.forward();
+    super.initState();
+  }
+
+  void checkBorders() {
+    double diameter = 50;
+    if (posX &lt;= 0 && hDir == Direction.left) {
+      hDir = Direction.right;
+      randX = randomNumber();
+    }
+    if (posX &gt;= width - diameter && hDir == Direction.right) {
+      hDir = Direction.left;
+      randX = randomNumber();
+    }
+    //check the bat position as well
+    if (posY &gt;= height - diameter - batHeight && vDir == Direction.down) {
+      //check if the bat is here, otherwise loose
+      if (posX &gt;= (batPosition - diameter) &&
+          posX &lt;= (batPosition + batWidth + diameter)) {
+        vDir = Direction.up;
+        randY = randomNumber();
+        safeSetState(() {
+          score++;
+        });
+      } else {
+        controller.stop();
+        showMessage(context);
+      }
+    }
+    if (posY &lt;= 0 && vDir == Direction.up) {
+      vDir = Direction.down;
+      randY = randomNumber();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          height = constraints.maxHeight;
+          width = constraints.maxWidth;
+          batWidth = width / 5;
+          batHeight = height / 20;
+
+          return Stack(
+            children: &lt;Widget&gt;[
+              Positioned(
+                  top: 0, right: 24, child: Text('Score: ' + score.toString())),
+              Positioned(child: Ball(), top: posY, left: posX),
+              Positioned(
+                  bottom: 0,
+                  left: batPosition,
+                  child: GestureDetector(
+                      onHorizontalDragUpdate: (DragUpdateDetails update) =&gt;
+                          moveBat(update),
+                      child: Bat(batWidth, batHeight))),
+            ],
+          );
+        });
+  }
+
+  void moveBat(DragUpdateDetails update) {
+    safeSetState(() {
+      batPosition += update.delta.dx;
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void safeSetState(Function function) {
+    if (mounted && controller.isAnimating) {
+      setState(() {
+        function();
+      });
+    }
   }
 }
 </pre>
