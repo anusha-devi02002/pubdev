@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html>
+<body>
+<img src="pubget.png" width="100%" height="100%">
+<pre style="font-size: xx-small ;color: #ffffff">
+  void calc(BuildContext context) {
+    Navigator.of(context).push (
+        MaterialPageRoute(
+          builder: (context) =&gt; calci(),
+        )
+    );
+  }
+
+/*import 'package:flutter/services.dart';
+String textasset = "assets/hii.txt"; //path to text file asset
+String text = await rootBundle.loadString(textasset);
+print(text);*/
+
+
+  webfeed: ^0.7.0
+  http: ^0.13.5
+  url_launcher: ^6.1.2
+  overlay_support:  ^1.1.0
+  path_provider: ^2.0.6
+  path: ^1.8.0
+  sqflite: ^2.0.0+4
+
+
+
+//GUI
+import 'dart:math';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class changefont extends StatefulWidget {
+  const changefont({Key? key}) : super(key: key);
+
+  @override
+  _changefontState createState() =&gt; _changefontState();
+}
+
+class _changefontState extends State&lt;changefont&gt; {
+  double size=30.0;
+  List&lt;Color&gt; colors=[Colors.black,Colors.blue,Colors.green,Colors.amber,Colors.red,Colors.purple,Colors.cyan];
+  int col=0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'MAD LAB',
+          textAlign: TextAlign.center,
+        ),
+        elevation: 2.0,
+      ),
+      body:Padding(
+        padding: EdgeInsets.all(15.0),
+    child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: &lt;Widget&gt;[
+    Text(
+            'Devi Anusha N',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: size,
+              fontWeight: FontWeight.bold,
+              color: colors[col],
+             ),
+          ),
+    SizedBox(height: 60.0),
+    ElevatedButton(
+    style: ElevatedButton.styleFrom(
+    primary: Colors.grey[300],
+    onSurface: Colors.black,
+    padding: EdgeInsets.all(12.0),
+    ),
+    child: Text(
+    'Change Font Size',
+    style: TextStyle(
+    fontSize: 25.0,
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    onPressed: () {
+      setState(() {
+        size=Random().nextInt(8)+30;
+      });
+    },
+    ),
+    SizedBox(height: 15.0),
+    ElevatedButton(
+    style: ElevatedButton.styleFrom(
+    primary: Colors.grey[300],
+    onSurface: Colors.black,
+    padding: EdgeInsets.all(12.0),
+    ),
+    child: Text(
+    'Change Font Color',
+    style: TextStyle(
+    fontSize: 25.0,
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    onPressed: () {
+      setState(() {
+        col=Random().nextInt(7);
+      });
+    },
+
+    ),
+    ]
+    ),
+    ),
+    );
+  }
+}
+
+
+//LAYOUT
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class details extends StatefulWidget {
+  const details({Key? key}) : super(key: key);
+
+  @override
+  _detailsState createState() =&gt; _detailsState();
+}
+
+class _detailsState extends State&lt;details&gt; {
+  int submitted=0;
+  String name='';
+  String reg='';
+  String dept="SELECT";
+  var items=["SELECT","IT","CSE","BME","ECE","EEE","CHEM","CIVIL","MECH"];
+
+  @override
+  Widget build(BuildContext context) {
+    if (submitted==0) {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'MAD LAB',
+            textAlign: TextAlign.center,
+          ),
+          elevation: 2.0,
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'DETAILS',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 25.0),
+              Text(
+                'Name',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextField(
+                decoration: InputDecoration(
+
+                  hintText: 'Enter your name',
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    name = newValue!;
+                  });
+                },
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                'Register Number',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                decoration: InputDecoration(
+                  hintText: 'Enter your register number',
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    reg = newValue!;
+                  });
+                },
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                'Department',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              DropdownButton(
+                value: dept,
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                      value: items,
+                      child: Text(items));
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dept = newValue!;
+                  });
+                },
+              ),
+              SizedBox(height: 35.0),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.grey[300],
+                  onSurface: Colors.black,
+                  padding: EdgeInsets.all(12.0),
+                ),
+                child: Text(
+                  'SUBMIT',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    submitted=1;
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    else{
+      return Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children:[
+            Text(
+            'DETAILS',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+            SizedBox(height: 45.0),
+            Text(
+              '    Name : '+'$name',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Text(
+              '    Register Number : '+'$reg',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Text(
+              '    Department : '+'$dept',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 35.0),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.grey[300],
+                onSurface: Colors.black,
+                padding: EdgeInsets.all(12.0),
+              ),
+              child: Text(
+                'BACK',
+                style: TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  dept="SELECT";
+                  submitted=0;
+                });
+              },
+            ),
+        ],
+        ),
+      );
+    }
+  }
+}
+
+
+//CALCI
+import 'package:flutter/material.dart';
+import 'dart:math';
+import 'package:flutter_grid_button/flutter_grid_button.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+const TextStyle _myTextStyle = TextStyle(
+  fontFamily: "Monospace",
+  fontWeight: FontWeight.bold,
+  fontSize: 20.0,
+);
+
+GridButtonItem _myCalcButton (String title) {
+  return GridButtonItem(
+    title: title,
+    textStyle: _myTextStyle,
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Trig-Calculator",
+            style: TextStyle(
+              fontFamily: "Monospace",
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: const Calculator(),
+      ),
+    );
+  }
+}
+
+class Calculator extends StatefulWidget {
+  const Calculator({Key? key}) : super(key: key);
+
+  @override
+  State&lt;Calculator&gt; createState() =&gt; _CalculatorState();
+}
+
+class _CalculatorState extends State&lt;Calculator&gt; {
+  final _myController = TextEditingController();
+  bool isRadian = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Stack(
+            children: [
+              // to display input and output
+              TextField(
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(50.0),
+                ),
+                controller: _myController,
+                style: _myTextStyle,
+                readOnly: true,
+              ),
+              // to indicate degree / radian
+              Container(
+                padding: const EdgeInsets.all(20.0),
+                alignment: const Alignment(1,1),
+                child: isRadian? const Text("R", style: TextStyle(fontSize: 12),) :
+                const Text("D", style: TextStyle(fontSize: 12),),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+            flex: 7,
+            child: GridButton(
+              onPressed: (value) {
+                if (value == "&lt;-&gt;") {
+                  setState(() {
+                    isRadian = !isRadian;
+                  });
+                }
+                else if (value == "sin" || value == "cos" || value == "tan") {
+                  double angle = 0.0;
+                  try {
+                    angle = double.parse(_myController.text);  // exception can occur if the text is empty
+                    // if the mode is degree, convert angle to radian
+                    isRadian? null : angle = angle * pi / 180;
+                    if (value == "sin") {
+                      _myController.text = sin(angle).toString();
+                    }
+                    else if (value == "cos") {
+                      _myController.text = cos(angle).toString();
+                    }
+                    else {
+                      _myController.text = tan(angle).toString();
+                    }
+                  }
+                  catch(e) {
+                    _myController.text = "Enter a valid number";
+                  }
+                }
+                else if (value == "C") {
+                  _myController.text = "";
+                }
+                else {
+                  _myController.text += value!;
+                }
+              },
+              items: [
+                [
+                  _myCalcButton("1"),
+                  _myCalcButton("2"),
+                  _myCalcButton("3"),
+                  _myCalcButton("C"),
+                ],
+                [
+                  _myCalcButton("4"),
+                  _myCalcButton("5"),
+                  _myCalcButton("6"),
+                  _myCalcButton("."),
+                ],
+                [
+                  _myCalcButton("7"),
+                  _myCalcButton("8"),
+                  _myCalcButton("9"),
+                  _myCalcButton("0"),
+                ],
+                [
+                  _myCalcButton("sin"),
+                  _myCalcButton("cos"),
+                  _myCalcButton("tan"),
+                  _myCalcButton("&lt;-&gt;"),
+                ],
+              ],
+            )
+        )
+      ],
+    );
+  }
+}
+
+//DRAW
+import 'package:flutter/material.dart';
+
+class drawing extends StatelessWidget {
+  const drawing ({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'MAD LAB',
+          textAlign: TextAlign.center,
+        ),
+        elevation: 2.0,
+      ),
+      body: CustomPaint(
+      size: Size(MediaQuery.of(context).size.width,(MediaQuery.of(context).size.width*1.7142857142857142).toDouble()),
+      painter: Painter(),
+      ),
+    );
+  }
+}
+
+class Painter extends CustomPainter{
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint0 = Paint()
+    ..color = const Color.fromARGB(255, 243, 237, 33)
+    ..style = PaintingStyle.fill
+    ..strokeWidth = 1;
+
+
+    Path path0 = Path();
+    path0.moveTo(size.width*0.1400000,size.height*0.4973333);
+    path0.lineTo(size.width*0.8577143,size.height*0.4990000);
+    path0.lineTo(size.width*0.8542857,size.height*0.9150000);
+    path0.lineTo(size.width*0.1445714,size.height*0.9160000);
+    path0.quadraticBezierTo(size.width*0.1434286,size.height*0.8133333,size.width*0.1400000,size.height*0.4973333);
+    path0.close();
+
+    canvas.drawPath(path0, paint0);
+
+
+    Paint paint1 = Paint()
+    ..color = const Color.fromARGB(255, 255, 127, 80)
+    ..style = PaintingStyle.fill
+    ..strokeWidth = 1;
+
+
+    Path path1 = Path();
+    path1.moveTo(size.width*0.2342857,size.height*0.0680000);
+    path1.cubicTo(size.width*0.2914286,size.height*0.0680000,size.width*0.3817143,size.height*0.0886667,size.width*0.3817143,size.height*0.1486667);
+    path1.cubicTo(size.width*0.3817143,size.height*0.1820000,size.width*0.3457143,size.height*0.2320000,size.width*0.2457143,size.height*0.2320000);
+    path1.cubicTo(size.width*0.1885714,size.height*0.2320000,size.width*0.1097143,size.height*0.2190000,size.width*0.1097143,size.height*0.1606667);
+    path1.cubicTo(size.width*0.1097143,size.height*0.1273333,size.width*0.1342857,size.height*0.0680000,size.width*0.2342857,size.height*0.0680000);
+    path1.close();
+
+    canvas.drawPath(path1, paint1);
+
+    Paint paint2 = Paint()
+      ..color = const Color.fromARGB(255, 248, 27, 27)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1;
+
+
+    Path path2 = Path();
+    path2.moveTo(size.width*0.1371429,size.height*0.4966667);
+    path2.lineTo(size.width*0.4771429,size.height*0.2250000);
+    path2.lineTo(size.width*0.8571429,size.height*0.5016667);
+
+    canvas.drawPath(path2, paint2);
+
+    Paint paint3 = Paint()
+      ..color = const Color.fromARGB(255, 139, 69, 19)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1;
+
+    Path path3 = Path();
+    path3.moveTo(size.width*0.3200000,size.height*0.7090000);
+    path3.lineTo(size.width*0.5277143,size.height*0.7090000);
+    path3.lineTo(size.width*0.5277143,size.height*0.9150000);
+    path3.lineTo(size.width*0.3200000,size.height*0.9160000);
+    path3.close();
+    canvas.drawPath(path3, paint3);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter old) {
+    return true;
+  }
+}
+
+//DB
+// ignore_for_file: prefer_const_constructors
+
+import 'package:dbapp/db.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Home(),
+    );
+  }
+}
+
+class Home extends StatefulWidget{
+  const Home({Key? key}) : super(key: key);
+
+
+  @override
+  State&lt;StatefulWidget&gt; createState() {
+      return _HomeState();
+  }
+}
+
+class _HomeState extends State&lt;Home&gt;{
+
+  getdataview(){
+    Future.delayed(Duration(milliseconds: 500),() async {
+        slist = await mydb.db.rawQuery('SELECT * FROM students ORDER BY roll_no;');
+        setState(() {view=1;});
+    });
+
+  }
+
+  TextEditingController name = TextEditingController();
+  TextEditingController rollno = TextEditingController();
+  
+  List&lt;Map&gt; slist = [];
+  MyDb mydb = MyDb();
+  int view=0;
+
+  @override
+  void initState() {
+    mydb.open();
+    super.initState();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+       return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                "Student Database CRUD",
+                textAlign: TextAlign.center,),
+                leading: view==1?
+                BackButton(
+                  color: Colors.white,
+                  onPressed: () {
+                    setState(() {
+                      view=0;
+                    });
+                  },
+                ):
+                null
+            ),
+            body:Container( 
+               padding: EdgeInsets.all(30),
+               child: view==0 ?
+               Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                   TextField(
+                     controller: name,
+                     decoration: InputDecoration(
+                        hintText: "Student Name",
+                     ),
+                   ),
+                   TextField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                     controller: rollno,
+                     decoration: InputDecoration(
+                        hintText: "Roll No.",
+                     ),
+                   ),
+                   SizedBox(height: 50),
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                     children :[
+                       ElevatedButton(
+                        onPressed: (){
+                          Future.delayed(Duration(milliseconds: 500), () async {
+                          var data = await mydb.getStudent(int.parse(rollno.text));
+                          if(data != null){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Student Already present with roll_no : "+rollno.text)));
+                          }else{
+                            mydb.db.rawInsert("INSERT INTO students (name, roll_no) VALUES (?, ?);",
+                             [name.text, rollno.text]);
+
+                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("New Student Added")));
+                             name.text = "";
+                             rollno.text = "";
+                          }
+                        });
+                             
+                        }, 
+                        child: Text("Insert")
+                       ),
+                       ElevatedButton(onPressed: (){
+
+                         Future.delayed(Duration(milliseconds: 500), () async {
+                          var data = await mydb.getStudent(int.parse(rollno.text));
+                          if(data == null){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No student found with roll_no : "+rollno.text)));
+                          }else{
+                            mydb.db.rawDelete("DELETE FROM students where roll_no=?;",[rollno.text]);
+                            //mydb.db.rawDelete("DELETE * FROM students"); 
+                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Student Successfully removed")));
+                             name.text = "";
+                             rollno.text = "";
+                          }
+                        });
+
+                       }, child: Text("Delete")),
+                   ],),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children :[
+                      ElevatedButton(onPressed: (){
+                        Future.delayed(Duration(milliseconds: 500), () async {
+                          var data = await mydb.getStudent(int.parse(rollno.text));
+                          if(data != null){
+                            mydb.db.rawInsert("UPDATE students SET name = ?, roll_no = ? WHERE roll_no = ?",
+                            [name.text, rollno.text,  rollno.text]);
+
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Student Data Updated")));
+                              name.text = "";
+                              rollno.text = "";
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No student found with roll_no : "+rollno.text)));
+                          }
+                        });
+                   }, child: Text("Update")),
+                      ElevatedButton(onPressed: (){
+                        getdataview();
+                      }, child: Text("View")),
+                    ],),
+                  Expanded(child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text("**Deletion and updation happens only based on Roll number",),
+                     )),
+               ],
+               ):
+                SingleChildScrollView(
+                  child: Container(
+                    child: slist.isEmpty?Text("No students to show."):
+                    Column( 
+                        children: slist.map((stuone){
+                            return Card(
+                              child: ListTile(
+                                  leading: Icon(Icons.people),
+                                  title: Text(stuone["roll_no"].toString()),
+                                  subtitle: Text("Name:" + stuone["name"]),
+                              ),
+                            );
+                        }).toList(),
+                    ), 
+                  ),
+                )
+            )
+       );
+  }
+}
+
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+class MyDb{
+   late Database db;
+
+   Future open() async {
+        // Get a location using getDatabasesPath
+        var databasesPath = await getDatabasesPath();
+        String path = join(databasesPath,'demo.db');
+        //join is from path package
+        //output /data/user/0/com.dbapp.flutter.dbapp/databases/demo.db
+
+        db = await openDatabase(path, version: 1,
+            onCreate: (Database db, int version) async {
+             // When creating the db, create the table
+              
+              await db.execute('''
+                    CREATE TABLE IF NOT EXISTS students( 
+                          id primary key,
+                          name varchar(255) not null,
+                          roll_no int unique not null
+                      );
+
+                      //create more table here
+                  
+                  ''');
+            //table students will be created if there is no table 'students'
+        });
+   }
+
+  Future&lt;Map&lt;dynamic, dynamic&gt;?&gt; getStudent(int rollno) async {
+    List&lt;Map&gt; maps = await db.query('students',
+        where: 'roll_no = ?',
+        whereArgs: [rollno]);
+    //getting student data with roll no.
+    if (maps.isNotEmpty) {
+       return maps.first;
+    }
+    return null;
+  }
+}
+
+//RSS
+https://www.espncricinfo.com/rss/content/story/feeds/0.xml
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:webfeed/webfeed.dart';
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
+
+void main() {
+  runApp(const RSSDemo());
+}
+
+class RSSDemo extends StatelessWidget {
+  const RSSDemo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(title: "RSS Feed", home: RSSMainPicture());
+  }
+}
+
+class RSSMainPicture extends StatefulWidget {
+  const RSSMainPicture({Key? key}) : super(key: key);
+
+  @override
+  State&lt;RSSMainPicture&gt; createState() =&gt; _RSSMainPictureState();
+}
+
+class _RSSMainPictureState extends State&lt;RSSMainPicture&gt; {
+  late Future&lt;RssFeed&gt; result;
+  Future&lt;RssFeed&gt; giver() async {
+    var response = await http.get(Uri.parse(
+        "https://hnrss.org/jobs"));
+    var channel = RssFeed.parse(response.body);
+    return channel;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    result = giver();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Job Portal"),
+        actions: [
+          IconButton(
+              onPressed: () =&gt; result = giver(),
+              icon: const Icon(Icons.refresh_rounded)),
+        ],
+      ),
+      body: FutureBuilder&lt;RssFeed?&gt;(
+        future: result,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            if (kDebugMode) {
+              print("Error");
+            }
+            return Container();
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasData) {
+            var feed = snapshot.data!;
+            var items = feed.items;
+            return ListView.builder(
+              itemCount: items?.length,
+              itemBuilder: (context, index) {
+                var item = items![index];
+                return GestureDetector(
+                  onTap: () async {
+                    if (!await launchUrl(Uri.parse(item.link!))) {
+                      throw 'Could not launch ${item.link}';
+                    }
+                  },
+                  child: ListTile(
+                    title: Text(item.title!),
+                    subtitle: Text("${item.pubDate!}"),
+                  ),
+                );
+              },
+            );
+          }
+          return Container();
+        },
+      ),
+    );
+  }
+}
+
+
+//MULTITHREAD
+import 'dart:async';
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  State&lt;Home&gt; createState() =&gt; _HomeState();
+}
+
+class _HomeState extends State&lt;Home&gt; {
+  int randint=99;
+  static FutureOr&lt;int&gt; randGen(int cal){
+    var rng = Random();
+    return rng.nextInt(100);
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Multithreading App",
+        ),
+        centerTitle: true,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: &lt;Widget&gt;[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                "Random Number: ",
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+              ),
+              Text(
+                "${randint}",
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          TextButton(
+            onPressed: () async{
+              int result = await compute(randGen,randint);
+              setState(() {
+                randint = result;
+              });
+            },
+            child: Text(
+              "Press Me!",
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+//GEO
+import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+bool _iconclick = false;
+IconData _lighticon = Icons.wb_sunny_rounded;
+IconData _darkicon = Icons.dark_mode_rounded;
+
+ThemeData _lighttheme = ThemeData(
+    primarySwatch: Colors.blue,
+    brightness: Brightness.light
+);
+
+ThemeData _darktheme = ThemeData(
+    primarySwatch: Colors.amber,
+    brightness: Brightness.dark
+);
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State&lt;MyApp&gt; createState() =&gt; _MyAppState();
+}
+
+String _myLoc = "My Location";
+Location location = new Location();
+late bool _serviceEnabled;
+late PermissionStatus _permissionGranted;
+late LocationData _locationData;
+bool _isListenLocation = false, _isGetLocation = false;
+
+class _MyAppState extends State&lt;MyApp&gt; {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: _iconclick?_lighttheme:_darktheme,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Home'),
+
+          actions: [
+            IconButton(
+                onPressed: (){
+                  setState(() {
+                    _iconclick=!_iconclick;
+                  });
+                },
+                icon: Icon(_iconclick?_darkicon:_lighticon) )
+          ],
+        ),
+        body: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: &lt;Widget&gt;[
+                const SizedBox(
+                  height: 20.0,
+                ),
+                const Icon(
+                  Icons.location_pin,
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                  child: Text(
+                    "$_myLoc",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                FloatingActionButton(
+                  child: Icon(
+                    Icons.location_on_sharp,
+                  ),
+                  onPressed: updateLoc,
+                ),
+              ],
+            )
+        ),
+      ),
+    );
+  }
+
+  void updateLoc() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (_serviceEnabled) return;
+    }
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) return;
+    }
+    _locationData = await location.getLocation();
+    setState(() {
+      _isGetLocation = true;
+    });
+    if (_isGetLocation) {
+      _myLoc = "${_locationData.latitude} / ${_locationData.longitude}";
+    }
+  }
+}
+
+//SDCARD
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+
+        primarySwatch: Colors.blue,
+      ),
+      home: const Home(),
+    );
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  State&lt;Home&gt; createState() =&gt; _HomeState();
+}
+
+class _HomeState extends State&lt;Home&gt; {
+
+   String? _data;
+   @override
+   void initState() {
+     super.initState();
+     writeContent();
+     readContent().then((String value) {
+       setState(() {
+         _data = value;
+       });
+     });
+   }
+
+   Future&lt;String?&gt; get _localPath async {
+     final directory = await getExternalStorageDirectory();
+     print(directory?.path);
+     return directory?.path;
+   }
+   Future&lt;File&gt; get _localFile async {
+     final path = await _localPath;
+     return File('$path/counter.txt');
+   }
+
+   Future&lt;String&gt; readContent() async {
+     try {
+       final file = await _localFile;
+       // Read the file
+       String contents = await file.readAsString();
+       // Returning the contents of the file
+       return contents;
+     } catch (e) {
+       // If encountering an error, return
+       return 'Error!';
+     }
+   }
+
+   Future&lt;File&gt; writeContent() async {
+     final file = await _localFile;
+     // Write the file
+     return file.writeAsString('Hello from the otherside');   }
+   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title:Text('Reading and Writing data')),
+      body:Center(
+        child:Text(
+          'Data read from a file:\n$_data',
+        )
+      )
+    );
+  }
+}
+
+
+//NOTIFS
+import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
+
+class Notifs extends StatefulWidget {
+  const Notifs({ Key? key }) : super(key: key);
+
+  @override
+  State&lt;Notifs&gt; createState() =&gt; _NotifsState();
+}
+
+class _NotifsState extends State&lt;Notifs&gt; {
+  String msg="";
+  @override
+  Widget build(BuildContext context) {
+    return OverlaySupport.global(
+      child: MaterialApp(
+        title: 'MAD LAB',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+        ),
+        home: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text(
+              'MAD LAB',
+              textAlign: TextAlign.center,
+            ),
+            elevation: 2.0,
+          ),
+          body: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Message',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+
+                    hintText: 'Enter your notification message',
+                  ),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      msg = newValue!;
+                    });
+                  },
+                ),
+                SizedBox(height: 35.0),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.grey[300],
+                    onSurface: Colors.black,
+                    padding: EdgeInsets.all(12.0),
+                  ),
+                  child: Text(
+                    'SEND',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    showSimpleNotification(
+                      Text(
+                        "\n"+msg+"\n",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      background: Colors.white,
+                      
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+//ALARM
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+@override
+State&lt;MyHomePage&gt; createState() =&gt; _MyHomePageState();
+}
+
+class _MyHomePageState extends State&lt;MyHomePage&gt; {
+
+// creating text ediiting controller to take hour
+// and minute as input
+TextEditingController hourController = TextEditingController();
+TextEditingController minuteController = TextEditingController();
+@override
+Widget build(BuildContext context) {
+	return Scaffold(
+	appBar: AppBar(
+		title: const Text('Clock'),
+		centerTitle: true,
+	),
+	body: Center(
+		child: Column(children: &lt;Widget&gt;[
+		SizedBox(height: 30),
+		Row(
+		mainAxisAlignment: MainAxisAlignment.center,
+		children: [
+			Container(
+			height: 40,
+			width: 60,
+			decoration: BoxDecoration(
+				shape: BoxShape.rectangle,
+				color: Colors.blue[200],
+				borderRadius: BorderRadius.circular(11)),
+			child: Center(
+				child: TextField(
+				controller: hourController,
+				keyboardType: TextInputType.number,
+				),
+			),
+			),
+			SizedBox(width: 20),
+			Container(
+			height: 40,
+			width: 60,
+			decoration: BoxDecoration(
+				shape: BoxShape.rectangle,
+				color: Colors.blue[200],
+				borderRadius: BorderRadius.circular(11)),
+			child: Center(
+				child: TextField(
+				controller: minuteController,
+				keyboardType: TextInputType.number,
+				),
+			),
+			),
+		],
+		),
+		Container(
+		margin: const EdgeInsets.all(25),
+		child: TextButton(
+			child: const Text(
+			'Create alarm',
+			style: TextStyle(fontSize: 20.0),
+			),
+			onPressed: () {
+			int hour;
+			int minutes;
+			hour = int.parse(hourController.text);
+			minutes = int.parse(minuteController.text);
+			
+			// creating alarm after converting hour
+			// and minute into integer
+			FlutterAlarmClock.createAlarm(hour, minutes);
+			},
+		),
+		),
+		ElevatedButton(
+		onPressed: () {
+			
+			// show alarm
+			FlutterAlarmClock.showAlarms();
+		},
+		child: const Text(
+			'Show Alarms',
+			style: TextStyle(fontSize: 20.0),
+		),
+		),
+		Container(
+		margin: const EdgeInsets.all(25),
+		child: TextButton(
+			child: const Text(
+				'Create timer',
+				style: TextStyle(fontSize: 20.0),
+			),
+			onPressed: () {
+				int minutes;
+				minutes = int.parse(minuteController.text);
+				
+				// create timer
+				FlutterAlarmClock.createTimer(minutes);
+				showDialog(
+					context: context,
+					builder: (context) {
+					return AboutDialog(
+						children: [
+						Center(
+							child: Text("Timer is set",
+								style: TextStyle(
+									fontSize: 20, fontWeight: FontWeight.bold)),
+						)
+						],
+					);
+					});
+			}),
+		),
+		ElevatedButton(
+		onPressed: () {
+			
+			// show timers
+			FlutterAlarmClock.showTimers();
+		},
+		child: Text(
+			"Show Timers",
+			style: TextStyle(fontSize: 17),
+		),
+		)
+	])),
+	);
+}
+}
+
+
+//REST API
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+
+class MyHomePage extends StatefulWidget {
+
+  late final String title;
+
+  @override
+  State&lt;MyHomePage&gt; createState() =&gt; _MyHomePageState();
+}
+
+class _MyHomePageState extends State&lt;MyHomePage&gt; {
+  late Future&lt;Map&lt;String,dynamic&gt;&gt; info;
+  @override
+  void initState(){
+    info=giver();
+    super.initState();
+  }
+  
+  Future&lt;Map&lt;String,dynamic&gt;&gt; giver() async{
+    var response = await http.get(Uri.parse("https://www.boredapi.com/api/activity"));
+    Map&lt;String,dynamic&gt; result=json.decode(response.body);
+    print(response);
+    return result;
+  }
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Bored API"),
+        actions: [
+          IconButton(onPressed: ()=&gt;setState(() {
+            info=giver();
+          }), icon: const Icon(Icons.refresh_rounded))
+        ],
+      ),
+      body: FutureBuilder&lt;Map&lt;String,dynamic&gt;&gt;(
+        future: info,
+        builder: (context,snapshot){
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return const Center(child: CircularProgressIndicator());
+          }
+          Map&lt;String,dynamic&gt; data={};
+          if(snapshot.hasData){
+            data=snapshot.data!;
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Activity: ${data["activity"]}",
+                  ),
+                  Text("Type: ${data["type"]}"),
+                  Text("Participants: ${data["participants"]}"),
+                  Text("Price: \$${data["price"]}"),
+                ],
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
+    );
+  }
+}
+
+
+//PATTERN
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+          brightness: Brightness.dark
+      ),
+      home: const MyHomePage(title: 'Build Pyramid'),
+    );
+  }
+}
+String stars="";
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  @override
+  State&lt;MyHomePage&gt; createState() =&gt; _MyHomePageState();
+}
+int _n=0;
+class _MyHomePageState extends State&lt;MyHomePage&gt; {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        // ignore: prefer_const_literals_to_create_immutables
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.all(15.0),
+                child: TextField(
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Enter N'
+                    ),
+                    onChanged: (val){
+                      setState(() {
+                        _n=int.parse(val);
+                      });
+                    }
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      buildStars(_n);
+                    });
+                  },
+                  child: Text('Build')),
+              SizedBox(height: 100),
+              Text(stars),
+            ],)
+      ),
+    );
+  }
+  void buildStars(int n) {
+    stars = "";
+    if (n &gt; 11 && n &lt; 0)
+      // if input is not but between 1 and 10
+      stars = "Enter value between 1 and 10";
+    else {
+      for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; n - i - 1; j++) {
+          // adding blank spaces to string
+          stars += " ";
+        }
+        for (int k = 0; k &lt; i + 1; k++) {
+          stars += "* ";
+        }
+        stars += "\n";
+      }
+    }
+  }
+}
+
+//ROBOT
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State&lt;MyApp&gt; createState() =&gt; _MyAppState();
+}
+
+class _MyAppState extends State&lt;MyApp&gt; {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: true,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text('Robot'),
+        ),
+        body: Container(
+          child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    color: Colors.green,
+                    height: 80.0,
+                    width: 30.0,
+                    margin: EdgeInsets.fromLTRB(0,0,0,80),
+
+                  ),
+                  Container(
+                    color: Colors.black,
+                    height: 220.0,
+                    width: 220.0,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.blue,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Colors.blue,
+                              ),
+                            ],),
+                          Container(
+                            color: Colors.red,
+                            width: 170.0,
+                            height: 30.0,
+                          )
+                        ]),
+                  ),
+                  Container(
+                    color: Colors.green,
+                    height: 80.0,
+                    width: 30.0,
+                    margin: EdgeInsets.fromLTRB(0,0,0,80),
+                  )
+                ],)
+          ),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+</body>
+</html>
